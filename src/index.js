@@ -1,4 +1,9 @@
 import _ from 'lodash';
 import './style.css';
+import { renderBackground } from './modules/rendering';
 
-console.log('Hello world!');
+function initWeatherApp() {
+  renderBackground();
+}
+
+document.addEventListener('DOMContentLoaded', initWeatherApp);
