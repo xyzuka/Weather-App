@@ -5,7 +5,7 @@
 
 :root {
     --container-bg:rgba(0, 0, 0, 0.95);
-    --search-bar:rgba(56, 56, 56, 0.95);
+    --secondary-bg:rgba(56, 56, 56, 0.95);
     --font-color: white;
     --font:
     'Open Sans',
@@ -29,8 +29,8 @@
 }
 
 .weather-app-container {
-  width: 60%;
-  height: 80%;
+  width: 50%;
+  height: 90%;
   background-color: var(--container-bg);
   opacity: 0.8;
   position: absolute;
@@ -47,8 +47,8 @@
 .search-bar {
   margin: 20px;
   display: flex;
-  background-color: var(--search-bar);
-  border-radius: 15px;
+  background-color: var(--secondary-bg);
+  border-radius: 10px;
   height: 7%;
   padding: 10px;
   align-items: center;
@@ -106,7 +106,7 @@ p,
   font-size: 1.25rem;
   color: var(--font-color);
   font-weight: 500;
-  padding-bottom: 5px;
+  padding: 10px;
 }
 
 .hourly-daily-forecast-container {
@@ -121,6 +121,11 @@ p,
 .switch-CF-button {
   font-size: 0.8rem;
   text-align: right;
+  cursor: pointer;
+}
+
+.switch-CF-button:hover {
+  font-weight: bold;
 }
 
 .lowest-highest-switch {
@@ -134,11 +139,14 @@ p,
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 .hourly-forecast-container {
-  border: red 1px solid;
-  height: 35%;
+  /* border: red 1px solid; */
+  background-color: var(--secondary-bg);
+  border-radius: 10px;
+  height: 33%;
   display: flex;
   flex-direction: column;
 }
@@ -146,14 +154,19 @@ p,
 .hourly-forecast-content {
   display: flex;
   flex-direction: row;
-  flex: 1;
+  padding: 0 10px 0 10px;
 }
 
 .forecast-item {
   color: var(--font-color);
-  border: green 1px solid;
-  width: 15%;
+  /* border: green 1px solid; */
+  width: 12%;
   height: 100%;
+  text-align: center;
+}
+
+.forecast-item-element {
+  padding-bottom: 5px;
 }
 
 .forecast-icon {
@@ -162,10 +175,31 @@ p,
 }
 
 .daily-forecast-container {
-  border: blue 1px solid;
+  /* border: blue 1px solid; */
+  background-color: var(--secondary-bg);
+  border-radius: 10px;
   flex: 1;
 }
 
-.daily-forecast-item {
+.daily-forecast-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.daily-forecast-day {
   color: var(--font-color);
+  padding: 0px 10px 10px 10px;
+  align-items: center;
+}
+
+.forecast-weather-icon-temp-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.daily-forecast-temp {
+  padding-right: 10px;
 }

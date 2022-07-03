@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" href="" />
   </head>
   <body>
     <div class="background" data-background-image>
@@ -26,17 +26,17 @@
         </form>
         <div class="weather-details-container">
           <div class="details-container">
-            <p class="location" data-location>Suva, Fiji</p>
-            <p data-weather-description>Mostly Cloudy</p>
-            <p data-humidity-percentage>Humidity: 73%</p>
-            <p data-wind-percentage>Wind: 21%</p>
+            <p class="location" data-location></p>
+            <p data-weather-description></p>
+            <p data-humidity-percentage></p>
+            <p data-feels-like-temp></p>
           </div>
           <div class="weather-container">
-            <p class="main-temp" data-main-temp>24°C</p>
-            <div class="lowest-highest-switch">
+            <p class="main-temp" data-main-temp></p>
+            <!-- <div class="lowest-highest-switch">
               <span class="lowest-temp" data-lowest-temp>L: 22°</span>
               <span class="highest-temp" data-highest-temp>H: 28°</span>
-            </div>
+            </div> -->
             <p class="switch-CF-button" data-switch-CF-button>Switch to F°C</p>
           </div>
         </div>
@@ -47,24 +47,34 @@
               <p class="forecast-header" data-daily-forecast>Hourly Forecast</p>
               <div class="hourly-forecast-content">
                 <div class="forecast-item">
-                  <p>Now</p>
-                  <img
-                    class="forecast-icon"
+                  <p class="forecast-item-element">Now</p>
+                  <!-- <img
+                    class="forecast-icon forecast-item-element"
                     src="<%= require('./images/weather icons/PartlyCloudy-Bold.png') %>"
-                  />
+                  /> -->
+                  <p class="forecast-item-element">24°C</p>
                 </div>
               </div>
             </div>
             <div class="daily-forecast-container">
               <p class="forecast-header">Weekly Forecast</p>
               <div class="daily-forecast-content">
-                <div class="daily-forecast-item">Monday</div>
-                <div class="daily-forecast-item">Tuesday</div>
+                <div class="daily-forecast-day">
+                  <p>Today</p>
+                </div>
+                <div class="forecast-weather-icon-temp-container">
+                  <!-- <img
+                    class="forecast-icon"
+                    src="<%= require('./images/weather icons/PartlyCloudy-Bold.png') %>"
+                  /> -->
+                  <p class="daily-forecast-temp">24°C</p>
+                </div>
+                <!-- <div class="daily-forecast-item">Tuesday</div>
                 <div class="daily-forecast-item">Wednesday</div>
                 <div class="daily-forecast-item">Thursday</div>
                 <div class="daily-forecast-item">Friday</div>
                 <div class="daily-forecast-item">Saturday</div>
-                <div class="daily-forecast-item">Sunday</div>
+                <div class="daily-forecast-item">Sunday</div> -->
               </div>
             </div>
           </div>
