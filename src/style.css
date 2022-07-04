@@ -23,13 +23,13 @@
 }
 
 .background {
-  background-image: url(/src/images/background\ images/Sunny.jpg);
+  /* background-image: url(/src/images/background\ images/Default.jpg); */
   height: 100vh;
   background-position: center;
 }
 
 .weather-app-container {
-  width: 50%;
+  width: 40%;
   height: 90%;
   background-color: var(--container-bg);
   opacity: 0.8;
@@ -49,7 +49,7 @@
   display: flex;
   background-color: var(--secondary-bg);
   border-radius: 10px;
-  height: 7%;
+  height: 3%;
   padding: 10px;
   align-items: center;
 }
@@ -66,8 +66,8 @@
 }
 
 .search-button {
-  width: 60px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   color: var(--font-color);
   cursor: pointer;
 }

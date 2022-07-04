@@ -2,7 +2,9 @@ import {
   renderUserLocation,
   renderMainTemp,
   renderMiscInfo,
+  renderBackground,
 } from './rendering.js';
+import { celciusMode } from './storage.js';
 
 function capitalize(input) {
   return input
@@ -28,20 +30,9 @@ function getCoordinates(position) {
   geolocationAPI(lat, long);
 }
 
-// API which searches for weather information based on lat and long
-async function weatherAPI(lat, long) {
-  const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&exclude=minutely&appid=2b309ac1935a89eccd3652ba2eecfdf2`,
-    { mode: 'cors' }
-  );
-
-  const weatherData = await response.json();
-
-  console.log(weatherData.current.weather[0].description);
-
-  // console.log(weatherData.current);
-
+function renderWeatherInformation(weatherData) {
   const mainTemp = Math.round(weatherData.current.temp);
+  const mainWeatherDescription = weatherData.current.weather[0].main;
   const weatherDescription = weatherData.current.weather[0].description;
   const weatherDesReformatted = capitalize(weatherDescription);
   const humidity = weatherData.current.humidity;
@@ -49,6 +40,43 @@ async function weatherAPI(lat, long) {
 
   renderMainTemp(mainTemp);
   renderMiscInfo(weatherDesReformatted, humidity, feelsLikeTemp);
+  renderBackground(mainWeatherDescription);
+}
+
+// API which searches for weather information based on lat and long
+async function weatherAPI(lat, long) {
+  if (celciusMode) {
+    const responseCelcius = await fetch(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&exclude=minutely&appid=2b309ac1935a89eccd3652ba2eecfdf2`,
+      { mode: 'cors' }
+    );
+
+    const weatherData = await responseCelcius.json();
+
+    // console.log(weatherData.current.weather[0].description);
+
+    console.log(weatherData);
+
+    renderWeatherInformation(weatherData);
+
+    // const mainTemp = Math.round(weatherData.current.temp);
+    // const weatherDescription = weatherData.current.weather[0].description;
+    // const weatherDesReformatted = capitalize(weatherDescription);
+    // const humidity = weatherData.current.humidity;
+    // const feelsLikeTemp = Math.round(weatherData.current.feels_like);
+
+    // renderMainTemp(mainTemp);
+    // renderMiscInfo(weatherDesReformatted, humidity, feelsLikeTemp);
+  } else {
+    const responseFahrenheit = await fetch(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&exclude=minutely&appid=2b309ac1935a89eccd3652ba2eecfdf2`,
+      { mode: 'cors' }
+    );
+
+    const weatherData = await responseFahrenheit.json();
+
+    renderWeatherInformation(weatherData);
+  }
 }
 
 // API which searches where the user is located based on lat and long
