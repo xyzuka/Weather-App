@@ -7,15 +7,23 @@ const feelsLikeTempEl = document.querySelector('[data-feels-like-temp]');
 const switchTempBtn = document.querySelector('[data-switch-CF-button]');
 
 import { celciusMode, swapTemp } from './storage.js';
+import Default from '../images/bgimgday/Default.jpg';
 
-import Thunderstorm from '../images/bgimg/Thunder.jpg';
-import Rain from '../images/bgimg/Raining.jpg';
-import Snow from '../images/bgimg/Snowy.jpg';
-import Atmosphere from '../images/bgimg/Foggy.jpg';
-import Clear from '../images/bgimg/ClearSkies.jpg';
-import Clouds from '../images/bgimg/Cloudy.jpg';
+// Day time background images
+import Thunderstorm from '../images/bgimgday/Thunder.jpg';
+import Rain from '../images/bgimgday/Raining.jpg';
+import Snow from '../images/bgimgday/Snowy.jpg';
+import Atmosphere from '../images/bgimgday/Foggy.jpg';
+import Clear from '../images/bgimgday/ClearSkies.jpg';
+import Clouds from '../images/bgimgday/Cloudy.jpg';
 
-import Default from '../images/bgimg/Default.jpg';
+// Night time background images
+import Thunderstorm from '../images/bgimgnight/Thunder.jpg';
+import Rain from '../images/bgimgnight/Rain.jpg';
+import Snow from '../images/bgimgnight/Snowy.jpg';
+import Atmosphere from '../images/bgimgnight/Foggy.jpg';
+import Clear from '../images/bgimgnight/ClearSkies.jpg';
+import Clouds from '../images/bgimgnight/Cloudy.jpg';
 
 export function renderBackground(description) {
   if (description === undefined)
