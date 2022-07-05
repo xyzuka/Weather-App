@@ -9,6 +9,18 @@
   <link rel="icon" href="favicon.png"><script defer src="main.js"></script></head>
   <body>
     <div class="background" data-background-image>
+      <div class="time-container">
+        <div class="date-container">
+          <span class="time" data-time-day></span>
+          <span class="time" data-time-date></span>
+          <span class="time" data-time-month></span>
+        </div>
+        <div class="hour-min-container">
+          <span class="time" data-time-hour></span><span class="time">:</span
+          ><span class="time" data-time-minutes></span>
+          <span class="time" data-time-am-pm></span>
+        </div>
+      </div>
       <div class="weather-app-container" data-weather-app-container>
         <form action="" class="search-bar">
           <input
@@ -45,15 +57,14 @@
           <div class="forecast-content" data-forecast-content>
             <div class="hourly-forecast-container">
               <p class="forecast-header" data-daily-forecast>Hourly Forecast</p>
-              <div class="hourly-forecast-content">
-                <div class="forecast-item">
+              <div
+                class="hourly-forecast-content"
+                data-hourly-forecast-container
+              >
+                <!--  <div class="forecast-item">
                   <p class="forecast-item-element">Now</p>
-                  <!-- <img
-                    class="forecast-icon forecast-item-element"
-                    src="1949c0e1ccf12b659b4f.png"
-                  /> -->
                   <p class="forecast-item-element">24°C</p>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="daily-forecast-container">
@@ -63,10 +74,6 @@
                   <p>Today</p>
                 </div>
                 <div class="forecast-weather-icon-temp-container">
-                  <!-- <img
-                    class="forecast-icon"
-                    src="1949c0e1ccf12b659b4f.png"
-                  /> -->
                   <p class="daily-forecast-temp">24°C</p>
                 </div>
                 <!-- <div class="daily-forecast-item">Tuesday</div>

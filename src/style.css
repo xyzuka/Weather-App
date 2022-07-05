@@ -28,6 +28,20 @@
   background-position: center;
 }
 
+.time {
+  color: var(--font-color)
+}
+
+.time-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
 .weather-app-container {
   width: 40%;
   height: 90%;
@@ -146,7 +160,7 @@ p,
   /* border: red 1px solid; */
   background-color: var(--secondary-bg);
   border-radius: 10px;
-  height: 33%;
+  height: 31%;
   display: flex;
   flex-direction: column;
 }
@@ -155,6 +169,8 @@ p,
   display: flex;
   flex-direction: row;
   padding: 0 10px 0 10px;
+  overflow-x: auto;
+  gap: 20px;
 }
 
 .forecast-item {
@@ -170,8 +186,8 @@ p,
 }
 
 .forecast-icon {
-  height: 30px;
-  width: 30px;
+  height: 45px;
+  width: 45px;
 }
 
 .daily-forecast-container {

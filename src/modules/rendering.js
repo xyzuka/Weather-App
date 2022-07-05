@@ -18,12 +18,21 @@ import Clear from '../images/bgimgday/ClearSkies.jpg';
 import Clouds from '../images/bgimgday/Cloudy.jpg';
 
 // Night time background images
-import Thunderstorm from '../images/bgimgnight/Thunder.jpg';
-import Rain from '../images/bgimgnight/Rain.jpg';
-import Snow from '../images/bgimgnight/Snowy.jpg';
-import Atmosphere from '../images/bgimgnight/Foggy.jpg';
-import Clear from '../images/bgimgnight/ClearSkies.jpg';
-import Clouds from '../images/bgimgnight/Cloudy.jpg';
+import ThunderstormNight from '../images/bgimgnight/Thunder.jpg';
+import RainNight from '../images/bgimgnight/Rain.jpg';
+import SnowNight from '../images/bgimgnight/Snowy.jpg';
+import AtmosphereNight from '../images/bgimgnight/Foggy.jpg';
+import ClearNight from '../images/bgimgnight/ClearSkies.jpg';
+import CloudsNight from '../images/bgimgnight/Cloudy.jpg';
+
+// Weather icons - Day
+import ThunderstormIcon from '../images/weathericons/day/thunderstorm.png';
+import RainIcon from '../images/weathericons/day/rain.png';
+import SnowIcon from '../images/weathericons/day/snow.png';
+import AtmosphereIcon from '../images/weathericons/day/fog.png';
+import ClearIcon from '../images/weathericons/day/clear-day.png';
+import ClearIconNight from '../images/weathericons/night/clear-night.png';
+import CloudsIcon from '../images/weathericons/day/cloudy.png';
 
 export function renderBackground(description) {
   if (description === undefined)
@@ -69,6 +78,55 @@ export function renderMiscInfo(weatherDes, humidity, deg) {
     weatherDesEl.textContent = weatherDes;
     humidityEl.textContent = `Humidity: ${humidity}%`;
     feelsLikeTempEl.textContent = `Feels like: ${deg}°F`;
+  }
+}
+
+function renderWeatherIcon(description) {
+  const forecastIcon = document.querySelector('[data-forecast-icon]');
+
+  if (description === 'Thunderstorm') forecastIcon.src = `${ThunderstormIcon}`;
+
+  if (description === 'Drizzle' || description === 'Rain')
+    forecastIcon.src = `${RainIcon}`;
+
+  if (description === 'Snow') forecastIcon.src = `${SnowIcon}`;
+
+  if (description === 'Atmosphere') forecastIcon.src = `${AtmosphereIcon}`;
+
+  if (description === 'Clear') forecastIcon.src = `${ClearIcon}`;
+
+  if (description === 'Clouds') forecastIcon.src = `${CloudsIcon}`;
+}
+
+export function renderHourlyForecast(
+  tempNow,
+  descriptionNow,
+  weatherAPIResponse
+) {
+  // Container element
+  const hourlyForecastContainer = document.querySelector(
+    '[data-hourly-forecast-container]'
+  );
+  // Render current forecast
+  const currentForecastMarkup = `
+    <div class="forecast-item">
+      <p class="forecast-item-element">Now</p>
+      <img class="forecast-icon" src="" data-forecast-icon>
+      <p class="forecast-item-element">${tempNow}°C</p>
+    </div>
+  `;
+  hourlyForecastContainer.insertAdjacentHTML(
+    'beforeend',
+    currentForecastMarkup
+  );
+
+  renderWeatherIcon(descriptionNow);
+
+  // Rendering next 12 hrs
+  console.log(weatherAPIResponse.hourly);
+
+  for (let i = 0; i < weatherAPIResponse.hourly[2]; i++) {
+    console.log([i]);
   }
 }
 

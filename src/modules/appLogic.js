@@ -3,6 +3,7 @@ import {
   renderMainTemp,
   renderMiscInfo,
   renderBackground,
+  renderHourlyForecast,
 } from './rendering.js';
 import { celciusMode } from './storage.js';
 
@@ -40,6 +41,7 @@ function renderWeatherInformation(weatherData) {
 
   renderMainTemp(mainTemp);
   renderMiscInfo(weatherDesReformatted, humidity, feelsLikeTemp);
+  renderHourlyForecast(mainTemp, mainWeatherDescription, weatherData);
   renderBackground(mainWeatherDescription);
 }
 

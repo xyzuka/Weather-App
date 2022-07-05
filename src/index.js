@@ -6,11 +6,14 @@ import {
   appEventListeners,
 } from './modules/rendering';
 import { getLocation } from './modules/appLogic.js';
+import { timeAndDayUpdate } from './modules/timeFeature.js';
 
 function initWeatherApp() {
+  // setInterval(getLocation, 1000);
   getLocation();
   renderBackground();
   appEventListeners();
+  setInterval(timeAndDayUpdate, 1000);
   // renderInformation();
 }
 
