@@ -15,3 +15,5 @@ export function swapTemp() {
   console.log(celciusMode);
   getLocation();
 }
+
+export let hourlyForecastStorage = [];

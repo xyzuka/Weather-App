@@ -31,13 +31,13 @@ function getCoordinates(position) {
   geolocationAPI(lat, long);
 }
 
-function renderWeatherInformation(weatherData) {
-  const mainTemp = Math.round(weatherData.current.temp);
-  const mainWeatherDescription = weatherData.current.weather[0].main;
-  const weatherDescription = weatherData.current.weather[0].description;
+function renderWeatherInformation(currentHourData, weatherData) {
+  const mainTemp = Math.round(currentHourData.temp);
+  const mainWeatherDescription = currentHourData.weather[0].main;
+  const weatherDescription = currentHourData.weather[0].description;
   const weatherDesReformatted = capitalize(weatherDescription);
-  const humidity = weatherData.current.humidity;
-  const feelsLikeTemp = Math.round(weatherData.current.feels_like);
+  const humidity = currentHourData.humidity;
+  const feelsLikeTemp = Math.round(currentHourData.feels_like);
 
   renderMainTemp(mainTemp);
   renderMiscInfo(weatherDesReformatted, humidity, feelsLikeTemp);
@@ -55,20 +55,7 @@ async function weatherAPI(lat, long) {
 
     const weatherData = await responseCelcius.json();
 
-    // console.log(weatherData.current.weather[0].description);
-
-    console.log(weatherData);
-
-    renderWeatherInformation(weatherData);
-
-    // const mainTemp = Math.round(weatherData.current.temp);
-    // const weatherDescription = weatherData.current.weather[0].description;
-    // const weatherDesReformatted = capitalize(weatherDescription);
-    // const humidity = weatherData.current.humidity;
-    // const feelsLikeTemp = Math.round(weatherData.current.feels_like);
-
-    // renderMainTemp(mainTemp);
-    // renderMiscInfo(weatherDesReformatted, humidity, feelsLikeTemp);
+    renderWeatherInformation(weatherData.hourly[0], weatherData);
   } else {
     const responseFahrenheit = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&exclude=minutely&appid=2b309ac1935a89eccd3652ba2eecfdf2`,
@@ -77,7 +64,7 @@ async function weatherAPI(lat, long) {
 
     const weatherData = await responseFahrenheit.json();
 
-    renderWeatherInformation(weatherData);
+    renderWeatherInformation(weatherData.hourly[0], weatherData);
   }
 }
 

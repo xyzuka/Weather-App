@@ -10,10 +10,10 @@ import { timeAndDayUpdate } from './modules/timeFeature.js';
 
 function initWeatherApp() {
   // setInterval(getLocation, 1000);
+  setInterval(timeAndDayUpdate, 1000);
   getLocation();
   renderBackground();
   appEventListeners();
-  setInterval(timeAndDayUpdate, 1000);
   // renderInformation();
 }
 

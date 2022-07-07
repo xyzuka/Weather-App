@@ -5,8 +5,11 @@ const weatherDesEl = document.querySelector('[data-weather-description]');
 const humidityEl = document.querySelector('[data-humidity-percentage]');
 const feelsLikeTempEl = document.querySelector('[data-feels-like-temp]');
 const switchTempBtn = document.querySelector('[data-switch-CF-button]');
+const hourlyForecastContainer = document.querySelector(
+  '[data-hourly-forecast-container]'
+);
 
-import { celciusMode, swapTemp } from './storage.js';
+import { celciusMode, swapTemp, hourlyForecastStorage } from './storage.js';
 import Default from '../images/bgimgday/Default.jpg';
 
 // Day time background images
@@ -16,23 +19,6 @@ import Snow from '../images/bgimgday/Snowy.jpg';
 import Atmosphere from '../images/bgimgday/Foggy.jpg';
 import Clear from '../images/bgimgday/ClearSkies.jpg';
 import Clouds from '../images/bgimgday/Cloudy.jpg';
-
-// Night time background images
-import ThunderstormNight from '../images/bgimgnight/Thunder.jpg';
-import RainNight from '../images/bgimgnight/Rain.jpg';
-import SnowNight from '../images/bgimgnight/Snowy.jpg';
-import AtmosphereNight from '../images/bgimgnight/Foggy.jpg';
-import ClearNight from '../images/bgimgnight/ClearSkies.jpg';
-import CloudsNight from '../images/bgimgnight/Cloudy.jpg';
-
-// Weather icons - Day
-import ThunderstormIcon from '../images/weathericons/day/thunderstorm.png';
-import RainIcon from '../images/weathericons/day/rain.png';
-import SnowIcon from '../images/weathericons/day/snow.png';
-import AtmosphereIcon from '../images/weathericons/day/fog.png';
-import ClearIcon from '../images/weathericons/day/clear-day.png';
-import ClearIconNight from '../images/weathericons/night/clear-night.png';
-import CloudsIcon from '../images/weathericons/day/cloudy.png';
 
 export function renderBackground(description) {
   if (description === undefined)
@@ -81,37 +67,18 @@ export function renderMiscInfo(weatherDes, humidity, deg) {
   }
 }
 
-function renderWeatherIcon(description) {
-  const forecastIcon = document.querySelector('[data-forecast-icon]');
-
-  if (description === 'Thunderstorm') forecastIcon.src = `${ThunderstormIcon}`;
-
-  if (description === 'Drizzle' || description === 'Rain')
-    forecastIcon.src = `${RainIcon}`;
-
-  if (description === 'Snow') forecastIcon.src = `${SnowIcon}`;
-
-  if (description === 'Atmosphere') forecastIcon.src = `${AtmosphereIcon}`;
-
-  if (description === 'Clear') forecastIcon.src = `${ClearIcon}`;
-
-  if (description === 'Clouds') forecastIcon.src = `${CloudsIcon}`;
-}
-
 export function renderHourlyForecast(
   tempNow,
   descriptionNow,
   weatherAPIResponse
 ) {
-  // Container element
-  const hourlyForecastContainer = document.querySelector(
-    '[data-hourly-forecast-container]'
-  );
-  // Render current forecast
+  const currentWeatherIconID = weatherAPIResponse.hourly[0].weather[0].icon;
+
+  // Render current forecast (Now)
   const currentForecastMarkup = `
     <div class="forecast-item">
       <p class="forecast-item-element">Now</p>
-      <img class="forecast-icon" src="" data-forecast-icon>
+      <img class="forecast-icon" src="http://openweathermap.org/img/wn/${currentWeatherIconID}@2x.png" data-forecast-icon>
       <p class="forecast-item-element">${tempNow}°C</p>
     </div>
   `;
@@ -120,14 +87,33 @@ export function renderHourlyForecast(
     currentForecastMarkup
   );
 
-  renderWeatherIcon(descriptionNow);
+  // // Rendering next 12 hrs
+  hourlyForecastStorage.length = 0;
 
-  // Rendering next 12 hrs
-  console.log(weatherAPIResponse.hourly);
-
-  for (let i = 0; i < weatherAPIResponse.hourly[2]; i++) {
-    console.log([i]);
+  for (let i = 0; i < 13; i++) {
+    hourlyForecastStorage.push(weatherAPIResponse.hourly[i]);
   }
+
+  // Removing the first hour since it is a duplicate of "Now"
+  hourlyForecastStorage.shift();
+
+  hourlyForecastStorage.forEach((hourForecast) => {
+    const hourlyForecastIconUniqueID = hourForecast.weather[0].icon;
+    const hourlyForecastIconUniqueDT = hourForecast.dt;
+
+    const DTmilliseconds = hourlyForecastIconUniqueDT * 1000;
+    const dateObj = new Date(DTmilliseconds);
+    const hour = dateObj.toLocaleString('en-US', { hour: 'numeric' });
+
+    const hourForecastMarkUp = `
+      <div class="forecast-item">
+        <p class="forecast-item-element">${hour}</p>
+        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${hourlyForecastIconUniqueID}@2x.png" data-forecast-icon>
+        <p class="forecast-item-element">${Math.round(hourForecast.temp)}°C</p>
+      </div>
+    `;
+    hourlyForecastContainer.insertAdjacentHTML('beforeend', hourForecastMarkUp);
+  });
 }
 
 export function appEventListeners() {
