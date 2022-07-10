@@ -8,8 +8,17 @@ const switchTempBtn = document.querySelector('[data-switch-CF-button]');
 const hourlyForecastContainer = document.querySelector(
   '[data-hourly-forecast-container]'
 );
+const dailyForecastContainer = document.querySelector(
+  '[data-daily-forecast-container]'
+);
+const searchBarEl = document.querySelector('.search-bar');
 
-import { celciusMode, swapTemp, hourlyForecastStorage } from './storage.js';
+import {
+  celciusMode,
+  swapTemp,
+  hourlyForecastStorage,
+  dailyForecastStorage,
+} from './storage.js';
 import Default from '../images/bgimgday/Default.jpg';
 
 // Day time background images
@@ -67,53 +76,221 @@ export function renderMiscInfo(weatherDes, humidity, deg) {
   }
 }
 
-export function renderHourlyForecast(
-  tempNow,
-  descriptionNow,
-  weatherAPIResponse
-) {
-  const currentWeatherIconID = weatherAPIResponse.hourly[0].weather[0].icon;
+export function renderHourlyForecast(tempNow, weatherAPIResponse) {
+  if (celciusMode) {
+    // Clear out parent element before populating
+    hourlyForecastContainer.innerHTML = '';
 
-  // Render current forecast (Now)
-  const currentForecastMarkup = `
+    const currentWeatherIconID = weatherAPIResponse.hourly[0].weather[0].icon;
+
+    // Render current forecast (Now)
+    const currentForecastMarkup = `
     <div class="forecast-item">
       <p class="forecast-item-element">Now</p>
       <img class="forecast-icon" src="http://openweathermap.org/img/wn/${currentWeatherIconID}@2x.png" data-forecast-icon>
       <p class="forecast-item-element">${tempNow}°C</p>
     </div>
   `;
-  hourlyForecastContainer.insertAdjacentHTML(
-    'beforeend',
-    currentForecastMarkup
-  );
+    hourlyForecastContainer.insertAdjacentHTML(
+      'beforeend',
+      currentForecastMarkup
+    );
 
-  // // Rendering next 12 hrs
-  hourlyForecastStorage.length = 0;
+    // // Rendering next 12 hrs
+    hourlyForecastStorage.length = 0;
 
-  for (let i = 0; i < 13; i++) {
-    hourlyForecastStorage.push(weatherAPIResponse.hourly[i]);
-  }
+    for (let i = 0; i < 13; i++) {
+      hourlyForecastStorage.push(weatherAPIResponse.hourly[i]);
+    }
 
-  // Removing the first hour since it is a duplicate of "Now"
-  hourlyForecastStorage.shift();
+    // Removing the first hour since it is a duplicate of "Now"
+    hourlyForecastStorage.shift();
 
-  hourlyForecastStorage.forEach((hourForecast) => {
-    const hourlyForecastIconUniqueID = hourForecast.weather[0].icon;
-    const hourlyForecastIconUniqueDT = hourForecast.dt;
+    hourlyForecastStorage.forEach((hourForecast) => {
+      const dailyForecastID = hourForecast.weather[0].icon;
+      const hourlyForecastIconUniqueDT = hourForecast.dt;
 
-    const DTmilliseconds = hourlyForecastIconUniqueDT * 1000;
-    const dateObj = new Date(DTmilliseconds);
-    const hour = dateObj.toLocaleString('en-US', { hour: 'numeric' });
+      const DTmilliseconds = hourlyForecastIconUniqueDT * 1000;
+      const dateObj = new Date(DTmilliseconds);
+      const hour = dateObj.toLocaleString('en-US', { hour: 'numeric' });
 
-    const hourForecastMarkUp = `
+      const hourForecastMarkUp = `
       <div class="forecast-item">
         <p class="forecast-item-element">${hour}</p>
-        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${hourlyForecastIconUniqueID}@2x.png" data-forecast-icon>
+        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${dailyForecastID}@2x.png" data-forecast-icon>
         <p class="forecast-item-element">${Math.round(hourForecast.temp)}°C</p>
       </div>
     `;
-    hourlyForecastContainer.insertAdjacentHTML('beforeend', hourForecastMarkUp);
-  });
+      hourlyForecastContainer.insertAdjacentHTML(
+        'beforeend',
+        hourForecastMarkUp
+      );
+    });
+  } else {
+    hourlyForecastContainer.innerHTML = '';
+
+    const currentWeatherIconID = weatherAPIResponse.hourly[0].weather[0].icon;
+
+    // Render current forecast (Now)
+    const currentForecastMarkup = `
+    <div class="forecast-item">
+      <p class="forecast-item-element">Now</p>
+      <img class="forecast-icon" src="http://openweathermap.org/img/wn/${currentWeatherIconID}@2x.png" data-forecast-icon>
+      <p class="forecast-item-element">${tempNow}°F</p>
+    </div>
+  `;
+    hourlyForecastContainer.insertAdjacentHTML(
+      'beforeend',
+      currentForecastMarkup
+    );
+
+    // // Rendering next 12 hrs
+    hourlyForecastStorage.length = 0;
+
+    for (let i = 0; i < 13; i++) {
+      hourlyForecastStorage.push(weatherAPIResponse.hourly[i]);
+    }
+
+    // Removing the first hour since it is a duplicate of "Now"
+    hourlyForecastStorage.shift();
+
+    hourlyForecastStorage.forEach((hourForecast) => {
+      const dailyForecastID = hourForecast.weather[0].icon;
+      const hourlyForecastIconUniqueDT = hourForecast.dt;
+
+      const DTmilliseconds = hourlyForecastIconUniqueDT * 1000;
+      const dateObj = new Date(DTmilliseconds);
+      const hour = dateObj.toLocaleString('en-US', { hour: 'numeric' });
+
+      const hourForecastMarkUp = `
+      <div class="forecast-item">
+        <p class="forecast-item-element">${hour}</p>
+        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${dailyForecastID}@2x.png" data-forecast-icon>
+        <p class="forecast-item-element">${Math.round(hourForecast.temp)}°F</p>
+      </div>
+    `;
+      hourlyForecastContainer.insertAdjacentHTML(
+        'beforeend',
+        hourForecastMarkUp
+      );
+    });
+  }
+}
+
+export function renderDailyForecast(weatherData) {
+  if (celciusMode) {
+    dailyForecastContainer.innerHTML = '';
+
+    const todayIcon = weatherData.daily[0].weather[0].icon;
+    const todayLTemp = Math.round(weatherData.daily[0].temp.min);
+    const todayHTemp = Math.round(weatherData.daily[0].temp.max);
+
+    // Render today's forecast
+    const todayForecastMarkup = `
+    <div class="daily-forecast-content">
+      <div class="daily-forecast-day">
+        <p>Today</p>
+      </div>
+      <div class="forecast-weather-icon-temp-container">
+        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${todayIcon}@2x.png" data-forecast-icon>
+        <p class="daily-forecast-temp">L: ${todayLTemp}</p>
+        <p class="daily-forecast-temp">H: ${todayHTemp}</p>
+      </div>
+    </div>
+  `;
+    dailyForecastContainer.insertAdjacentHTML('beforeend', todayForecastMarkup);
+
+    // Render remaining days
+    dailyForecastStorage.length = 0;
+
+    for (let i = 0; i < 7; i++) {
+      dailyForecastStorage.push(weatherData.daily[i]);
+    }
+
+    // Removing the first day since it is a duplicate of "Today"
+    dailyForecastStorage.shift();
+
+    dailyForecastStorage.forEach((dailyForecast) => {
+      const dailyForecastIconID = dailyForecast.weather[0].icon;
+      const dailyForecastIconUniqueDT = dailyForecast.dt;
+      const todayLTemp = Math.round(dailyForecast.temp.min);
+      const todayHTemp = Math.round(dailyForecast.temp.max);
+
+      const DTmilliseconds = dailyForecastIconUniqueDT * 1000;
+      const dateObj = new Date(DTmilliseconds);
+      const day = dateObj.toLocaleString('en-US', { weekday: 'long' });
+
+      const dayForecastMarkUp = `
+     <div class="daily-forecast-content">
+      <div class="daily-forecast-day">
+        <p>${day}</p>
+      </div>
+      <div class="forecast-weather-icon-temp-container">
+        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${dailyForecastIconID}@2x.png" data-forecast-icon>
+        <p class="daily-forecast-temp">L: ${todayLTemp}</p>
+        <p class="daily-forecast-temp">H: ${todayHTemp}</p>
+      </div>
+    </div>
+    `;
+      dailyForecastContainer.insertAdjacentHTML('beforeend', dayForecastMarkUp);
+    });
+  } else {
+    dailyForecastContainer.innerHTML = '';
+
+    const todayIcon = weatherData.daily[0].weather[0].icon;
+    const todayLTemp = Math.round(weatherData.daily[0].temp.min);
+    const todayHTemp = Math.round(weatherData.daily[0].temp.max);
+
+    // Render today's forecast
+    const todayForecastMarkup = `
+    <div class="daily-forecast-content">
+      <div class="daily-forecast-day">
+        <p>Today</p>
+      </div>
+      <div class="forecast-weather-icon-temp-container">
+        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${todayIcon}@2x.png" data-forecast-icon>
+        <p class="daily-forecast-temp">L: ${todayLTemp}</p>
+        <p class="daily-forecast-temp">H: ${todayHTemp}</p>
+      </div>
+    </div>
+  `;
+    dailyForecastContainer.insertAdjacentHTML('beforeend', todayForecastMarkup);
+
+    // Render remaining days
+    dailyForecastStorage.length = 0;
+
+    for (let i = 0; i < 7; i++) {
+      dailyForecastStorage.push(weatherData.daily[i]);
+    }
+
+    // Removing the first day since it is a duplicate of "Today"
+    dailyForecastStorage.shift();
+
+    dailyForecastStorage.forEach((dailyForecast) => {
+      const dailyForecastIconID = dailyForecast.weather[0].icon;
+      const dailyForecastIconUniqueDT = dailyForecast.dt;
+      const todayLTemp = Math.round(dailyForecast.temp.min);
+      const todayHTemp = Math.round(dailyForecast.temp.max);
+
+      const DTmilliseconds = dailyForecastIconUniqueDT * 1000;
+      const dateObj = new Date(DTmilliseconds);
+      const day = dateObj.toLocaleString('en-US', { weekday: 'long' });
+
+      const dayForecastMarkUp = `
+     <div class="daily-forecast-content">
+      <div class="daily-forecast-day">
+        <p>${day}</p>
+      </div>
+      <div class="forecast-weather-icon-temp-container">
+        <img class="forecast-icon" src="http://openweathermap.org/img/wn/${dailyForecastIconID}@2x.png" data-forecast-icon>
+        <p class="daily-forecast-temp">L: ${todayLTemp}</p>
+        <p class="daily-forecast-temp">H: ${todayHTemp}</p>
+      </div>
+    </div>
+    `;
+      dailyForecastContainer.insertAdjacentHTML('beforeend', dayForecastMarkUp);
+    });
+  }
 }
 
 export function appEventListeners() {
@@ -125,6 +302,11 @@ export function appEventListeners() {
       switchTempBtn.textContent = 'Switch to °F';
       swapTemp();
     }
+  });
+
+  searchBarEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log('location data submitted!');
   });
 }
 

@@ -17,3 +17,5 @@ export function swapTemp() {
 }
 
 export let hourlyForecastStorage = [];
+
+export let dailyForecastStorage = [];
