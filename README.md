@@ -1,6 +1,6 @@
 # Weather App
 
-<p>A weather web app built following <a href='https://www.theodinproject.com/lessons/node-path-javascript-todo-list'>The Odin Project</a> JavaScript circulum</p>
+<p>A weather web app built following <a href='https://www.theodinproject.com/lessons/node-path-javascript-weather-app'>The Odin Project</a> JavaScript circulum</p>
 
 <p>Created using Webpack 5, CSS, and JavaScript</p>
 
