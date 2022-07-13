@@ -1,21 +1,24 @@
 import { renderMainTemp } from './rendering.js';
-import { getLocation } from './appLogic.js';
+import { getLocation, geocodingAPI } from './appLogic.js';
 
 export let celciusMode = true;
 
-export function swapTemp() {
-  console.log('temp is swapped');
+export let hourlyForecastStorage = [];
 
+export let dailyForecastStorage = [];
+
+export let forecastSearchStorage = [];
+
+export function swapTemp() {
   if (celciusMode) {
     celciusMode = false;
   } else {
     celciusMode = true;
   }
 
-  console.log(celciusMode);
-  getLocation();
+  if (forecastSearchStorage.length === 0) {
+    getLocation();
+  } else {
+    geocodingAPI(forecastSearchStorage[0]);
+  }
 }
-
-export let hourlyForecastStorage = [];
-
-export let dailyForecastStorage = [];

@@ -12,6 +12,7 @@ const dailyForecastContainer = document.querySelector(
   '[data-daily-forecast-container]'
 );
 const searchBarEl = document.querySelector('.search-bar');
+const searchBarInput = document.querySelector('.search-bar-input');
 
 import {
   celciusMode,
@@ -19,6 +20,7 @@ import {
   hourlyForecastStorage,
   dailyForecastStorage,
 } from './storage.js';
+import { submitSearch } from './appLogic.js';
 import Default from '../images/bgimgday/Default.jpg';
 
 // Day time background images
@@ -306,10 +308,11 @@ export function appEventListeners() {
 
   searchBarEl.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('location data submitted!');
-  });
-}
 
-export function renderInformation() {
-  // renderUserLocation();
+    const input = searchBarInput.value;
+
+    searchBarInput.value = '';
+
+    submitSearch(input);
+  });
 }

@@ -6,7 +6,7 @@ import {
   renderHourlyForecast,
   renderDailyForecast,
 } from './rendering.js';
-import { celciusMode } from './storage.js';
+import { celciusMode, forecastSearchStorage } from './storage.js';
 
 function capitalize(input) {
   return input
@@ -83,4 +83,29 @@ async function geolocationAPI(lat, long) {
   const locationCountry = locationData.features[0].properties.country;
 
   renderUserLocation(locationCity, locationCountry);
+}
+
+export async function geocodingAPI(cityName) {
+  try {
+    const response = await fetch(
+      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=2b309ac1935a89eccd3652ba2eecfdf2`
+    );
+
+    const cityData = await response.json();
+
+    const cityLat = cityData[0].lat;
+    const cityLong = cityData[0].lon;
+
+    weatherAPI(cityLat, cityLong);
+    geolocationAPI(cityLat, cityLong);
+  } catch (error) {
+    alert('Please enter a valid city');
+  }
+}
+
+export function submitSearch(searchBarInput) {
+  // Used to store searched city for when the user swaps C/F, the API will load the info based off the saved city
+  forecastSearchStorage.length = 0;
+  forecastSearchStorage.push(searchBarInput);
+  geocodingAPI(searchBarInput);
 }
