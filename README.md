@@ -9,7 +9,7 @@
 <ol><a href='https://apidocs.geoapify.com/docs/geocoding/reverse-geocoding/#about'>🌎 Geoapify Reverse Geocoding API</a></ol>
 <ol><a href='https://openweathermap.org/api/geocoding-api'>📍 Open Weather - Direct Geocoding API</a></ol>
 
-<a href="https://xyzuka-to-do-app.netlify.app/">👉🏻 Live Demo</a>
+<a href="https://xyzuka-weather-app.netlify.app/">👉🏻 Live Demo</a>
 
 # Features
 
