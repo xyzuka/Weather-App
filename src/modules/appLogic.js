@@ -88,7 +88,7 @@ async function geolocationAPI(lat, long) {
 export async function geocodingAPI(cityName) {
   try {
     const response = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=2b309ac1935a89eccd3652ba2eecfdf2`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=2b309ac1935a89eccd3652ba2eecfdf2`
     );
 
     const cityData = await response.json();
