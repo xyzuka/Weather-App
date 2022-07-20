@@ -11,6 +11,13 @@
     sans-serif;
 }
 
+html {
+  margin: 0;
+    padding: 0;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -20,6 +27,9 @@
 .background {
   height: 100vh;
   background-position: center;
+  display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .time {
@@ -37,19 +47,27 @@
 }
 
 .weather-app-container {
-  width: 35%;
-  height: 90%;
   background-color: var(--container-bg);
   opacity: 0.8;
-  position: absolute;
+  border-radius: 10px;
+
+  /* position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;  
-  margin: auto;
-  border-radius: 10px;
+  margin: auto; */
+  
   display: flex;
   flex-direction: column;
+
+  width: 35%;
+  height: 90%;
+
+  /* width: 400px;
+  margin: auto; */
+  
+  
 }
 
 .search-bar {
@@ -187,7 +205,7 @@ p,
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  height: 53%;
+  height: 50%;
 }
 
 .daily-forecast-content {
