@@ -13,7 +13,7 @@
 
 # Features
 
-<p>1. Convert between C°C and F°C</p>
+<p>1. Convert between °C and °F</p>
 
 ![1  c to f gif](https://user-images.githubusercontent.com/94155478/178628207-d46c510d-051a-4632-8483-9e95eb776990.gif)
 
